@@ -42,7 +42,7 @@ jobs:
           COMPONENT="sample-python"
           curl -X POST -H -d 'build_parameters[COMPONENT]=sample-python'\
            "{}" \
-           "https://circleci.com/api/v1/project/madlandev/$COMPONENT/tree/master?circle-token=$CIRCLE_API_USER_TOKEN"
+           "https://circleci.com/api/v1/project/madlandev/sample-umbrella/tree/master?circle-token=$CIRCLE_API_USER_TOKEN"
 
   deploy:
     machine: true
