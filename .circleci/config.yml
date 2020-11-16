@@ -31,9 +31,9 @@ jobs:
          sudo install skaffold /usr/local/bin/
          rm -rf skaffold
       - aws-ecr/ecr-login
-      - run: helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-sample-python
+      - run: helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
       - run: helm chart list
-      - run: helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-sample-python
+      - run: helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
 
 workflows:
   my-little-workflow:
