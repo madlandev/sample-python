@@ -21,6 +21,3 @@ workflows:
   build_and_test:
     jobs:
       - build-and-push-to-docker:
-          filters:
-            branches:
-              only: master
