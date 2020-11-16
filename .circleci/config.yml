@@ -59,7 +59,7 @@ jobs:
          command: kubectl config use-context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
       - run: |
           aws sts get-caller-identity
-          kubectl cluster-info
+          kubectl cluster-info --context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
