@@ -11,21 +11,21 @@ jobs:
 #   environment:
 #     HELM_EXPERIMENTAL_OCI: 1
 #   steps:
- build-and-push-to-docker:
-  executor: docker/docker
-  steps:
-    - setup_remote_docker
-    - checkout
-    - docker/check
-    - docker/build:
-        image: madlan/sample-python
-    - docker/push:
-        image: madlan/sample-python
- helm-push-to-ecr:
-   machine: true
-   environment:
-     HELM_EXPERIMENTAL_OCI: 1
-   steps:
+  build-and-push-to-docker:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: madlan/sample-python
+      - docker/push:
+          image: madlan/sample-python
+  helm-push-to-ecr:
+    machine: true
+    environment:
+      HELM_EXPERIMENTAL_OCI: 1
+    steps:
      - checkout
      - kubernetes/install-kubectl
      - aws-cli/install
