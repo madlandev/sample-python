@@ -30,9 +30,7 @@ jobs:
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
-          aws ecr get-login-password \
-                      --region $AWS_REGION
-      - run: |
+          chown -R $USER:$USER /etc/docker/certs.d/*
           aws ecr get-login-password \
             --region $AWS_REGION | helm registry login \
             --username AWS \
