@@ -1,0 +1,4 @@
+exports:
+  values:
+    global:
+      redis_messages_ts: true

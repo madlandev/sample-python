@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+  name: sample-python
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+      - image: madlan/sample-python
+        name: sample-python
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: docker
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
