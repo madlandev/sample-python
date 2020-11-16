@@ -6,11 +6,11 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.14.0
   docker: circleci/docker@1.5.0
 jobs:
- ecr-login:
-   machine: true
-   environment:
-     HELM_EXPERIMENTAL_OCI: 1
-   steps:
+# ecr-login:
+#   machine: true
+#   environment:
+#     HELM_EXPERIMENTAL_OCI: 1
+#   steps:
  build-and-push-to-docker:
     executor: docker/docker
         steps:
