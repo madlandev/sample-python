@@ -31,6 +31,9 @@ jobs:
           version: v3.0.0
       - run: |
           aws ecr get-login-password \
+                      --region $AWS_REGION
+      - run: |
+          aws ecr get-login-password \
             --region $AWS_REGION | helm registry login \
             --username AWS \
             --password-stdin $AWS_ECR_ACCOUNT_URL
