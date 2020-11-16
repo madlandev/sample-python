@@ -6,11 +6,6 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.14.0
   docker: circleci/docker@1.5.0
 jobs:
-# ecr-login:
-#   machine: true
-#   environment:
-#     HELM_EXPERIMENTAL_OCI: 1
-#   steps:
   build-and-push-to-docker:
     executor: docker/docker
     steps:
@@ -21,28 +16,6 @@ jobs:
           image: madlan/sample-python
       - docker/push:
           image: madlan/sample-python
-  helm-push-to-ecr:
-    machine: true
-    environment:
-      HELM_EXPERIMENTAL_OCI: 1
-    steps:
-     - checkout
-     - kubernetes/install-kubectl
-     - aws-cli/install
-     - helm/install-helm-client:
-         version: v3.0.0
-     - run: |
-         curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
-         sudo install skaffold /usr/local/bin/
-         rm -rf skaffold
-     - run: |
-         echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
-     - run: cd image && docker build --build-arg GRAFANA_VERSION=$GRAFANA_VERSION -t levkov/grafana:$GRAFANA_VERSION .
-     - run: docker push levkov/grafana:$GRAFANA_VERSION
-     - run: helm chart save chart/ localhost:5000/grafana:$GRAFANA_VERSION
-     - run: helm chart list
-     - run: helm chart push localhost:5000/grafana:$GRAFANA_VERSION
-
 workflows:
   version: 2
   build_and_test:
