@@ -16,17 +16,18 @@ jobs:
           docker build -t madlan/sample-python:latest .
           echo $DOCKER_PASS | docker login -u gelevb --password-stdin
           docker push madlan/sample-python:latest
+
   push-to-ecr:
     machine: true
     environment:
       HELM_EXPERIMENTAL_OCI: 1
     steps:
       - checkout
-      - run: |
-          aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
+      - aws-ecr/ecr-login
       - run: helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
       - run: helm chart list
       - run: helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
+
   deploy:
     machine: true
     environment:
@@ -36,15 +37,14 @@ jobs:
       - run:
          name: Set AWS Region
          command: aws configure set region eu-west-1
+      - run: aws --version
       - run:
          name: Create Airflow Kubernetes Cluster kubeconfig
          command: aws eks --region eu-west-1 update-kubeconfig --name jx-cluster-staging
       - run:
          name: Set Airflow Kubernetes Cluster kubectl context
          command: kubectl config use-context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
-      - run: |
-          aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
-      - run: aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
+      - aws-ecr/ecr-login
       - run: helm chart pull 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
       - run: helm chart export 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
       - run: helm install sample-python ./ --namespace default
