@@ -22,7 +22,8 @@ jobs:
       HELM_EXPERIMENTAL_OCI: 1
     steps:
       - checkout
-      - run: aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
+      - run: |
+          aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
       - run: helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
       - run: helm chart list
       - run: helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
@@ -41,9 +42,8 @@ jobs:
       - run:
          name: Set Airflow Kubernetes Cluster kubectl context
          command: kubectl config use-context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
-      - run:
-         name: Login to Elastic Containers Registry
-         command: aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 654570355225.dkr.ecr.eu-west-1.amazonaws.com
+      - run: |
+          aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
       - run: aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
       - run: helm chart pull 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
       - run: helm chart export 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
