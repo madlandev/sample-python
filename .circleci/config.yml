@@ -58,7 +58,7 @@ jobs:
       - run:
          name: Set Airflow Kubernetes Cluster kubectl context
          command: kubectl config use-context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
-      -run: kubectl cluster-info
+      - run: kubectl cluster-info
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
