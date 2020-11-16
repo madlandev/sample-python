@@ -20,4 +20,4 @@ workflows:
   version: 2
   test:
     jobs:
-    - build-and-push-to-docker:
+    - build-push:
