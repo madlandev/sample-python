@@ -6,7 +6,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.14.0
   docker: circleci/docker@1.5.0
 jobs:
- build-and-deploy:
+  build-and-deploy:
    machine: true
    steps:
       - setup_remote_docker
@@ -16,7 +16,6 @@ jobs:
           image: madlan/sample-python
       - docker/push:
           image: madlan/sample-python
-
 workflows:
   my-little-workflow:
     jobs:
