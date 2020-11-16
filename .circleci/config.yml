@@ -26,9 +26,9 @@ jobs:
     steps:
       - run: |
           COMPONENT="sample-python"
-          curl -u ${CIRCLE_API_USER_TOKEN}: \
-          -d "build_parameters[CIRCLE_JOB]=deploy" \
-               https://circleci.com/api/v1.1/project/github/madlandev/sample-umbrella/tree/master
+          curl -u ${CIRCLE_API_USER_TOKEN}: -X POST --header "Content-Type: application/json" -d '{
+          build_parameters[CIRCLE_JOB]=deploy
+          }' https://circleci.com/api/v2/project/sample-umbrella/pipeline
 
   deploy:
     machine: true
