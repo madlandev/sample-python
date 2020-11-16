@@ -48,13 +48,21 @@ jobs:
       - kubernetes/install-kubectl
       - aws-cli/install
       - aws-cli/setup
+      - run:
+         name: Set AWS Region
+         command: aws configure set region eu-west-1
+      - run:
+         name: Create Airflow Kubernetes Cluster kubeconfig
+         command: aws eks --region eu-west-1 update-kubeconfig --name jx-cluster-staging
+      - run:
+         name: Set Airflow Kubernetes Cluster kubectl context
+         command: kubectl config use-context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
+      - run: |
+          aws sts get-caller-identity
+          kubectl cluster-info
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
-          aws configure set region eu-west-1
-          aws eks --region eu-west-1 update-kubeconfig --name jx-cluster-staging
-          kubectl config use-context arn:aws:eks:eu-west-1:654570355225:cluster/jx-cluster-staging
-          kubectl cluster-info
           sudo chown -R $USER:$USER /etc/docker
           aws ecr get-login-password \
             --region $AWS_REGION | helm registry login \
