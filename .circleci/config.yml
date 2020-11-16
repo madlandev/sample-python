@@ -28,9 +28,12 @@ jobs:
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
-          aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
           helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
           helm chart list
+          aws ecr get-login-password \
+               --region $AWS_REGION | helm registry login \
+               --username AWS \
+               --password-stdin $AWS_ECR_ACCOUNT_URL
           helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
 
   deploy:
@@ -56,7 +59,10 @@ jobs:
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
-          aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_URL
+          aws ecr get-login-password \
+               --region $AWS_REGION | helm registry login \
+               --username AWS \
+               --password-stdin $AWS_ECR_ACCOUNT_URL
           helm chart pull 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
           helm chart export 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
           helm install sample-python ./ --namespace default
