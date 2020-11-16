@@ -8,6 +8,10 @@ orbs:
 jobs:
   build-and-deploy:
    executor: docker/docker
+   docker:
+     auth:
+       username: gelevb  # can specify string literal values
+       password: $DOCKERHUB_PASSWORD  # or project environment variable reference
    steps:
       - setup_remote_docker
       - checkout
