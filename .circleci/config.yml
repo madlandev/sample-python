@@ -18,6 +18,6 @@ jobs:
           image: madlan/sample-python
 workflows:
   version: 2
-  build_and_test:
+  test:
     jobs:
       - build-and-push-to-docker:
