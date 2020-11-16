@@ -27,8 +27,7 @@ jobs:
       - run: |
           COMPONENT="sample-python"
           curl -u ${CIRCLE_API_USER_TOKEN}: \
-               -d 'build_parameters[CIRCLE_JOB]=deploy' \
-               -d 'build_parameters[COMPONENT]=sample-python' \
+               -d 'COMPONENT=sample-python' \
                https://circleci.com/api/v1.1/project/github/madlandev/sample-umbrella/tree/master
 
   deploy:
