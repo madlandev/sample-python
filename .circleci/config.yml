@@ -79,11 +79,11 @@ workflows:
 #          filters:
 #            branches:
 #              only: main
-#      - push-to-ecr:
-#          filters:
-#            branches:
-#              only: main
-      - deploy:
+      - push-to-ecr:
           filters:
             branches:
               only: main
+#      - deploy:
+#          filters:
+#            branches:
+#              only: main
