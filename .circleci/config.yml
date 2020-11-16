@@ -6,7 +6,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.14.0
   docker: circleci/docker@1.5.0
 jobs:
-  build-and-push-to-docker:
+  build-push:
     executor: docker/docker
     steps:
       - setup_remote_docker
