@@ -12,14 +12,10 @@ jobs:
       - setup_remote_docker
       - checkout
       - docker/check
-      - docker/build:
-          image: madlan/sample-python
-      - docker/push:
-          image: madlan/sample-python
-          - auth:
-              username: gelevb  # can specify string literal values
-              password: $DOCKERHUB_PASSWORD  # or project environment variable reference
-
+      - run: |
+          docker build -t madlan/sample-python:latest .
+          echo $DOCKER_PASS | docker login -u gelevb --password-stdin
+          docker push madlan/sample-python:latest
 workflows:
   my-little-workflow:
     jobs:
