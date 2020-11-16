@@ -1,25 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
   name: sample-python
+  labels:
+    app: sample-python
 spec:
-  replicas: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-python
   template:
     metadata:
-      annotations:
-        linkerd.io/inject: enabled
+      labels:
+        app: sample-python
     spec:
+      imagePullSecrets:
+        - name: docker
       containers:
-      - image: madlan/sample-python
-        name: sample-python
+      - name: sample-python
+        image: madlan/sample-python
         ports:
         - containerPort: 80
-          protocol: TCP
-      dnsPolicy: ClusterFirst
-      imagePullSecrets:
-      - name: docker
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
