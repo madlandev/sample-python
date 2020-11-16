@@ -40,9 +40,9 @@ jobs:
           helm chart list
           helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:sample-python
           COMPONENT="sample-python"
-          curl -X POST -H -d 'build_parameters[COMPONENT]=sample-python'\
-           "{}" \
-           "https://circleci.com/api/v1/project/madlandev/sample-umbrella/tree/master?circle-token=$CIRCLE_API_USER_TOKEN"
+          curl -u ${CIRCLE_API_USER_TOKEN}: \
+               -d 'build_parameters[COMPONENT]=sample-python' \
+               https://circleci.com/api/v1.1/project/github/madlandev/sample-umbrella/tree/master
 
   deploy:
     machine: true
