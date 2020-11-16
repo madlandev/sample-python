@@ -44,6 +44,7 @@ jobs:
      - run: helm chart push localhost:5000/grafana:$GRAFANA_VERSION
 
 workflows:
+  version: 2
   my-workflow:
     jobs:
       - build-and-push-to-docker:
