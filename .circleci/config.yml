@@ -8,10 +8,6 @@ orbs:
 jobs:
   build-and-deploy:
    executor: docker/docker
-   docker:
-     auth:
-       username: gelevb  # can specify string literal values
-       password: $DOCKERHUB_PASSWORD  # or project environment variable reference
    steps:
       - setup_remote_docker
       - checkout
@@ -20,6 +16,10 @@ jobs:
           image: madlan/sample-python
       - docker/push:
           image: madlan/sample-python
+          - auth:
+          username: gelevb  # can specify string literal values
+          password: $DOCKERHUB_PASSWORD  # or project environment variable reference
+
 workflows:
   my-little-workflow:
     jobs:
