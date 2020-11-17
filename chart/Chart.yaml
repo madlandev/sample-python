@@ -2,4 +2,4 @@ apiVersion: v1
 appVersion: "1.0"
 description: sample-python chart
 name: sample-python
-version: 1.0.11
+version: 1.0.12
