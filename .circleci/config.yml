@@ -41,7 +41,7 @@ jobs:
           helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:$COMPONENT-$VERSION
           helm chart list
           helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:$COMPONENT-$VERSION
-          curl -u ${CIRCLE_API_USER_TOKEN}: -X POST --header "Content-Type: application/json" -d '{
+          /home/circleci/project/.circleci/do-exclusively.sh --branch master curl -u ${CIRCLE_API_USER_TOKEN}: -X POST --header "Content-Type: application/json" -d '{
             "parameters": {
               "component": "'"$COMPONENT"'",
               "version": "'"$VERSION"'"
