@@ -16,7 +16,7 @@ jobs:
       - docker/check
       - run: |
           docker build -t madlan/sample-python:latest .
-          echo $DOCKER_PASS | docker login -u gelevb --password-stdin
+          echo $DOCKER_PASSWORD | docker login -u gelevb --password-stdin
           docker push madlan/sample-python:latest
 
   push-to-ecr:
