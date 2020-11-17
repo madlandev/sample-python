@@ -44,7 +44,6 @@ jobs:
           curl -u ${CIRCLE_API_USER_TOKEN}: -X POST --header "Content-Type: application/json" -d '{
             "parameters": {
               "component": "$COMPONENT",
-              "version": "$VERSION"
             }
           }' https://circleci.com/api/v2/project/gh/madlandev/sample-umbrella/pipeline?branch=master
 
