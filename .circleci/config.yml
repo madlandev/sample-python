@@ -24,6 +24,7 @@ jobs:
     environment:
       HELM_EXPERIMENTAL_OCI: 1
       COMPONENT: sample-python
+      VERSION: 0.0.1
     steps:
       - checkout
       - aws-cli/install
@@ -32,6 +33,7 @@ jobs:
           version: v3.0.0
       - run: |
           export VERSION=$(cat chart/Chart.yaml | grep version: | sed -e "s/version: //")
+          echo $VERSION
       - run: |
           sudo chown -R $USER:$USER /etc/docker
           aws ecr get-login-password \
