@@ -23,12 +23,33 @@ jobs:
     machine: true
     environment:
       HELM_EXPERIMENTAL_OCI: 1
+      COMPONENT: sample-python
     steps:
       - run: |
-          COMPONENT="sample-python"
+      - checkout
+      - aws-cli/install
+      - aws-cli/setup
+      - helm/install-helm-client:
+          version: v3.0.0
+      - run: |
+          export VERSION=$(cat chart/Chart.yaml | grep version: | sed -e "s/version: //")
+      - run: |
+          sudo chown -R $USER:$USER /etc/docker
+          aws ecr get-login-password \
+            --region $AWS_REGION | helm registry login \
+            --username AWS \
+            --password-stdin $AWS_ECR_ACCOUNT_URL
+          helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:$COMPONENT-$VERSION
+          helm chart list
+          helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:$COMPONENT-$VERSION
           curl -u ${CIRCLE_API_USER_TOKEN}: -X POST --header "Content-Type: application/json" -d '{
-          build_parameters[CIRCLE_JOB]=deploy
-          }' https://circleci.com/api/v2/project/sample-umbrella/pipeline
+            "parameters": {
+              "component": "$COMPONENT",
+              "version": "$VERSION"
+            }
+          }' https://circleci.com/api/v2/project/gh/madlandev/sample-umbrella/pipeline?branch=master
+
+
 
   deploy:
     machine: true
