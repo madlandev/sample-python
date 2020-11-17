@@ -85,10 +85,10 @@ jobs:
 workflows:
   my-little-workflow:
     jobs:
-#      - build-and-push:
-#          filters:
-#            branches:
-#              only: main
+      - build-and-push:
+          filters:
+            branches:
+              only: main
       - push-to-ecr:
           filters:
             branches:
