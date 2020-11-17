@@ -25,7 +25,6 @@ jobs:
       HELM_EXPERIMENTAL_OCI: 1
       COMPONENT: sample-python
     steps:
-      - run: |
       - checkout
       - aws-cli/install
       - aws-cli/setup
