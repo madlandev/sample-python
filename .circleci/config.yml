@@ -31,9 +31,6 @@ jobs:
       - helm/install-helm-client:
           version: v3.0.0
       - run: |
-          export VERSION=$(cat chart/Chart.yaml | grep version: | sed -e "s/version: //")
-          echo $VERSION
-      - run: |
           sudo chown -R $USER:$USER /etc/docker
           aws ecr get-login-password \
             --region $AWS_REGION | helm registry login \
@@ -41,7 +38,8 @@ jobs:
             --password-stdin $AWS_ECR_ACCOUNT_URL
           helm chart save chart/ 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:$COMPONENT-$VERSION
           helm chart list
-          echo $VERSION
+          export VERSION=$(cat chart/Chart.yaml | grep version: | sed -e "s/version: //")
+          echo "The version is:" $VERSION
           helm chart push 654570355225.dkr.ecr.eu-west-1.amazonaws.com/helm-charts-test:$COMPONENT-$VERSION
           curl -u ${CIRCLE_API_USER_TOKEN}: -X POST --header "Content-Type: application/json" -d '{
             "parameters": {
